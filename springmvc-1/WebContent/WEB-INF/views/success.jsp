@@ -12,6 +12,18 @@
 <body>
 	
 	success page
+	<br>
+	time:${requestScope.time}
+	<br>
+	names:${requestScope.names}
+	<br>
+	user:${requestScope.user}
+	<br>
+	user:${sessionScope.user}
+	<br>
+	school:${requestScope.school}
+	<br>
+	school:${sessionScope.school}
 	
 </body>
 </html>

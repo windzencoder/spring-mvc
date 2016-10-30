@@ -1,18 +1,89 @@
 package com.springmvc.handlers;
 
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Map;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.springmvc.entities.User;
 
 @Controller
 @RequestMapping("/springmvc")
+//@SessionAttributes(value={"user"},types={String.class})
 public class SpringMVCTest {
 
 	private static final String SUCCESS = "success";
+	
+	
+	@ModelAttribute
+	public void getUser(@RequestParam(value="id", required=false) Integer id,
+			Map<String, Object> map){
+		if (id != null) {
+			//模拟从数据库中获取对象
+			User user= new User(1, "tom", "123456", "123@123.com", 12);
+			System.out.println("从数据库中获取一个对象：" + user);
+			
+			map.put("user", user);
+		}
+		
+	}
+	
+	@RequestMapping("/testModelAttribute")
+	public String testModelAttribute(User user){
+		System.out.println("修改：" + user);
+		return SUCCESS;
+	}
+	
+	/**
+	 * 
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping("/testSessionAttributes")
+	public String testSessionAttributes(Map<String, Object> map) {
+//		User user = new User("wz", "hello");
+//		map.put("user", user);
+//		map.put("school", "wuhan");
+		return SUCCESS;
+		
+	}
+	
+	
+	/**
+	 * 目标方法可以添加Map类型的参数，还可传入ModelMap或Model，通常传入Map类型
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping("/testMap")
+	public String testMap(Map<String, Object> map) {
+		map.put("names", Arrays.asList("tom", "jerry", "mike"));
+		return SUCCESS;
+	}
+	
+	
+	/**
+	 * 目标方法的返回值可以是ModelAndView类型。
+	 * 其中可以包含视图和视图模型信息
+	 * @return
+	 */
+	@RequestMapping("/testModelAndView")
+	public ModelAndView testModelAndView(){
+		String viweName = SUCCESS;
+		ModelAndView modelAndView = new ModelAndView(viweName);
+		//添加模型数据到ModelAndView中
+		modelAndView.addObject("time", new Date());
+		return modelAndView;
+	}
+	
 	
 	@RequestMapping("/testRequestHeader")
 	public String testRequestHeader(@RequestHeader(value="Accept-Language") String header){
