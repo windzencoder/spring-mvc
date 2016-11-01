@@ -11,6 +11,11 @@
 </head>
 <body>
 
+	<a href="springmvc/testView">testView</a>
+	<br>
+
+	<a href="springmvc/testViewAndViewResolver">testViewAndViewResolver</a>
+	<br>
 
 	<form action="springmvc/testModelAttribute" method="post">
 	

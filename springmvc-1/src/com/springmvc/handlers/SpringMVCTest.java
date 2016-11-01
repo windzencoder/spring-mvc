@@ -12,22 +12,39 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.springmvc.entities.User;
 
 @Controller
 @RequestMapping("/springmvc")
-//@SessionAttributes(value={"user"},types={String.class})
+@SessionAttributes(value={"user"}, types={String.class})
 public class SpringMVCTest {
 
 	private static final String SUCCESS = "success";
+	
+	@RequestMapping("/testView")
+	public String testView(){
+		System.out.println("testView");
+		return "helloView";
+	}
+	
+	
+	@RequestMapping("/testViewAndViewResolver")
+	public String testViewAndViewResolver() {
+		System.out.println("testViewAndViewResolver");
+		return SUCCESS;
+	}
+	
 	
 	
 	@ModelAttribute
 	public void getUser(@RequestParam(value="id", required=false) Integer id,
 			Map<String, Object> map){
+		System.out.println("@ModelAttribute");
 		if (id != null) {
+			
 			//模拟从数据库中获取对象
 			User user= new User(1, "tom", "123456", "123@123.com", 12);
 			System.out.println("从数据库中获取一个对象：" + user);
@@ -38,7 +55,7 @@ public class SpringMVCTest {
 	}
 	
 	@RequestMapping("/testModelAttribute")
-	public String testModelAttribute(User user){
+	public String testModelAttribute(@ModelAttribute("user") User user){
 		System.out.println("修改：" + user);
 		return SUCCESS;
 	}
