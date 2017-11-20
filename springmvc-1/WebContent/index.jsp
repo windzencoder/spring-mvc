@@ -11,6 +11,12 @@
 </head>
 <body>
 
+	<form action="springmvc/testFileUpload" method="post" enctype="multipart/form-data">
+		File:<input type="file" name="file"/>
+		Desc:<input type="text" name="desc"/>
+		<input type="submit" value="submit"/>
+	</form>
+
 	<a href="springmvc/testView">testView</a>
 	<br>
 

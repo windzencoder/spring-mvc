@@ -2,8 +2,12 @@ package com.springmvc.crud.handlers;
 
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,15 +26,14 @@ public class EmployeeHandler {
 	@Autowired
 	private DepartmentDao departmentDao;
 	
-	@ModelAttribute
-	public void getEmployee(@RequestParam(value="id", required=false) Integer id,
-			Map<String, Object> map) {
-		System.out.println("getEmployee");
-		if(id != null){
-			map.put("employee", employeeDao.get(id));
-		}
-		
-	}
+//	@ModelAttribute
+//	public void getEmployee(@RequestParam(value="id", required=false) Integer id,
+//			Map<String, Object> map) {
+//		System.out.println("getEmployee");
+//		if(id != null){
+//			map.put("employee", employeeDao.get(id));
+//		}
+//	}
 	
 	/**
 	 * 更新
@@ -76,13 +79,21 @@ public class EmployeeHandler {
 	 * @return
 	 */
 	@RequestMapping(value="/emp", method=RequestMethod.POST)
-	public String save(Employee employee) {
+	public String save(@Valid Employee employee, BindingResult result) {
+		System.out.println("save:"+employee);
+		if (result.getErrorCount() > 0) {
+			System.out.println("出错了");
+			for (FieldError error : result.getFieldErrors()) {
+				System.out.println(error.getField() + " : " + error.getDefaultMessage());
+			}
+			//若验证出错，则转向默认的页面
+		}
 		employeeDao.save(employee);
 		return "redirect:/emps";
 	}
 	
 	/**
-	 * GET 听见新的employee，需要获取部门列表 显示目标页面（添加页面）
+	 * GET 新建新的employee，需要获取部门列表 显示目标页面（添加页面）
 	 * @return
 	 */
 	@RequestMapping(value="/emp", method=RequestMethod.GET)

@@ -16,6 +16,12 @@
 </head>
 <body>
 
+	<form action="testConversionServiceConverter" method="post">
+		<!-- 格式：lastname-email-gender-department.id -->
+		Employee:<input type="text" name="employee" />
+		<input type="submit" value="submit" />
+	</form>
+	<br>
 
 	<!-- 
 		1.为什么使用form标签？
@@ -59,6 +65,15 @@
 	 	Department:
 	 	<form:select path="department.id" items="${departments }" itemLabel="departmentName" itemValue="id"></form:select>
 	 	<br>
+	 	<!--  新增一个生日-->
+	 	<!--  
+	 		1.数据类型转换
+	 		2.数据类型格式化
+	 		3.数据校验的问题
+	 	-->
+	 	birth：<form:input path="birth"/>
+	 	<br>
+	 	
 	 	<input type="submit" value="submit" />
 	 </form:form>
 

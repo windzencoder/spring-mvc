@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.springmvc.entities.User;
+import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
 
 @Controller
 @RequestMapping("/springmvc")
@@ -23,6 +25,17 @@ import com.springmvc.entities.User;
 public class SpringMVCTest {
 
 	private static final String SUCCESS = "success";
+	
+	
+	@RequestMapping("/testFileUpload")
+	public String testFileUpload(@RequestParam("desc") String desc,
+			@RequestParam("file") MultipartFile file) throws Exception{
+		System.out.println("desc : "+desc);
+		System.out.println("OriginalFilename : "+file.getOriginalFilename());
+		System.out.println("InputStream : "+file.getInputStream());
+		return "success";
+	}
+	
 	
 	@RequestMapping("/testView")
 	public String testView(){
